@@ -1,0 +1,15 @@
+{
+  "name": "tesseract",
+  "version": "1.0.0",
+  "description": "A small API for the tesseract OCR.",
+  "main": "main.js",
+  "type": "module",
+  "author": "coalaura",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "express-fileupload": "^1.4.0",
+    "tesseract.js": "^4.1.1"
+  }
+}
