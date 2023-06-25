@@ -1,19 +1,24 @@
-import { Tesseract } from "./tesseract.js";
+import { cpus } from "os";
 
-import os from "os";
+import { Tesseract } from "./tesseract.js";
+import { log } from "./log.js";
 
 const tesseract = new Tesseract();
 
-await tesseract.initialize(os.cpus().length);
+await tesseract.initialize(cpus().length);
 
 export async function detect(pRequest, pResponse) {
     const { image } = pRequest.files;
 
     if (!image) {
+        log(pRequest, 400, "No image provided");
+
         return pResponse.sendStatus(400);
     }
 
     if (!/^image/.test(image.mimetype)) {
+        log(pRequest, 400, "Invalid image sent");
+
         return pResponse.sendStatus(400);
     }
 
@@ -30,9 +35,11 @@ export async function detect(pRequest, pResponse) {
             data.words = data.words.filter(pWord => pWord.confidence >= minConfidence);
         }
 
+        log(pRequest, 200, `Detected ${data.words.length} words`);
+
         pResponse.json(data);
     } catch (pError) {
-        console.log(pError);
+        log(pRequest, 500, pError.message);
 
         pResponse.sendStatus(500);
     }

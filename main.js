@@ -4,6 +4,7 @@ import express from "express";
 import { createServer } from "http";
 import cors from "cors";
 import fileUpload from "express-fileupload";
+import requestIp from "request-ip";
 
 import "dotenv/config";
 
@@ -13,6 +14,8 @@ const app = express(),
 app.use(cors({
     origin: '*'
 }));
+
+app.use(requestIp.mw());
 
 app.use(
     fileUpload({

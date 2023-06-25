@@ -5,7 +5,10 @@ export class Tesseract {
         this.scheduler = createScheduler();
 
         for (let i = 0; i < pWorkerCount; i++) {
-            const worker = await createWorker();
+            const worker = await createWorker({
+                logger: () => {},
+                errorHandler: () => {}
+            });
 
             await worker.loadLanguage("eng");
             await worker.initialize("eng");
