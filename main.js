@@ -5,6 +5,8 @@ import { createServer } from "http";
 import cors from "cors";
 import fileUpload from "express-fileupload";
 
+import "dotenv/config";
+
 const app = express(),
     server = createServer(app);
 
