@@ -8,6 +8,8 @@ const tesseract = new Tesseract();
 await tesseract.initialize(cpus().length);
 
 export async function detect(pRequest, pResponse) {
+    const started = Date.now();
+
     const { image } = pRequest.files;
 
     if (!image) {
@@ -35,7 +37,9 @@ export async function detect(pRequest, pResponse) {
             data.words = data.words.filter(pWord => pWord.confidence >= minConfidence);
         }
 
-        log(pRequest, 200, `Detected ${data.words.length} words`);
+        const time = formatTime(Date.now() - started);
+
+        log(pRequest, 200, `Detected ${data.words.length} words in ${time}`);
 
         pResponse.json(data);
     } catch (pError) {
@@ -43,4 +47,14 @@ export async function detect(pRequest, pResponse) {
 
         pResponse.sendStatus(500);
     }
+}
+
+function formatTime(pTime) {
+    if (pTime < 1000) {
+        return `${pTime}ms`;
+    }
+
+    const seconds = Math.floor(pTime / 100) / 10;
+
+    return `${seconds}s`;
 }
