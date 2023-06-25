@@ -25,6 +25,8 @@ app.use(
 
 app.post("/detect", detect);
 
-server.listen(9999, () => {
-    console.log("Server started on 9999");
+const port = process.env.PORT || 9999;
+
+server.listen(port, () => {
+    console.log(`Server started on ${port}`);
 });
