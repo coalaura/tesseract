@@ -1,8 +1,10 @@
 import { Tesseract } from "./tesseract.js";
 
+import os from "os";
+
 const tesseract = new Tesseract();
 
-await tesseract.initialize(4);
+await tesseract.initialize(os.cpus().length);
 
 export async function detect(pRequest, pResponse) {
     const { image } = pRequest.files;
